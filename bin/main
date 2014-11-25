@@ -92,15 +92,15 @@ def delete(file, content)
   f.close
 end
 
-def operateChar(input)
+def operate(input)
   if input.size < 3
     abort  "argument size is too short"
   end
   case input[1]
   when "add"
-    add(CHARACTER, input[2])
+    add(input[0], input[2])
   when "delete"
-    delete(CHARACTER, input[2])
+    delete(input[0], input[2])
   end
 end
 
@@ -108,10 +108,7 @@ def read_input(input)
   if input.size == 0
     abort "you need argument"
   end
-  case input[0]
-  when "char"
-    operateChar(input)
-  end
+  operate(input)
 end
 
 # -- test section --
@@ -122,4 +119,4 @@ read_input(["char", "add", "john"])
 read_input(["char", "delete", "john"])
 overwrite_id "maxim"
 overwrite_id "hawk"
-
+read_input(["ki", "add", "john loves mary"])
