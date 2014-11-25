@@ -33,7 +33,13 @@
 CHARACTER = "char"
 ROOT = Dir.pwd
 
-# id, id_table
+# id
+
+def overwrite_id(id)
+  f = File.open("#{ROOT}/id", "w")
+  f.puts id
+  f.close
+end
 
 def getRootDir()
   f = File.open("#{ROOT}/id", "r")
@@ -41,7 +47,7 @@ def getRootDir()
   if (id.size == 0 || id[0].strip == "")
     abort "id file is blanc"
   end
-  # this gott a be path or somethin?
+
   dir = "#{ROOT}/../data/#{id[0].chomp}/"
   if !Dir.exist? dir
     require 'fileutils'
@@ -57,7 +63,6 @@ def get_file(file, op)
 end
 
 def guaranteeFileExistence(file)
-  puts "--  #{file}  --"
   if !File.exist? file
     tmp = File.new file, "w"
     tmp.close
@@ -114,6 +119,7 @@ end
 # add character
 read_input(["char", "add", "john"])
 # delete character
-#read_input(["char", "delete", "john"])
-
+read_input(["char", "delete", "john"])
+overwrite_id "maxim"
+overwrite_id "hawk"
 
