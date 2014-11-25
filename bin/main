@@ -35,20 +35,38 @@ ROOT = Dir.pwd
 
 # id
 
+
+def add_tag(text)
+  chars = get_characters
+  puts chars
+  get_id
+end
+
+def get_characters()
+  f = get_file CHARACTER, "r"
+  chars = f.each_line.to_a
+  f.close
+  chars
+end
+
 def overwrite_id(id)
   f = File.open("#{ROOT}/id", "w")
   f.puts id
   f.close
 end
 
-def getRootDir()
+def get_id()
   f = File.open("#{ROOT}/id", "r")
   id = f.each_line.to_a
   if (id.size == 0 || id[0].strip == "")
     abort "id file is blanc"
   end
+  f.close
+  id[0].chomp
+end
 
-  dir = "#{ROOT}/../data/#{id[0].chomp}/"
+def getRootDir()
+  dir = "#{ROOT}/../data/#{get_id}/"
   if !Dir.exist? dir
     require 'fileutils'
     FileUtils::mkdir_p dir
@@ -71,8 +89,12 @@ def guaranteeFileExistence(file)
 end
 
 def add(file, content)
+  # char only
+  chars = get_characters
   f = get_file file, "a"
-  f.puts content
+  if !chars.include? "#{content}\n"
+    f.puts content
+  end
   f.close
 end
 
@@ -114,9 +136,12 @@ end
 # -- test section --
 
 # add character
+read_input(["char", "add", "paul"])
 read_input(["char", "add", "john"])
+read_input(["char", "add", "mary"])
 # delete character
-read_input(["char", "delete", "john"])
+read_input(["char", "delete", "paul"])
 overwrite_id "maxim"
 overwrite_id "hawk"
 read_input(["ki", "add", "john loves mary"])
+add_tag "john loves mary"
