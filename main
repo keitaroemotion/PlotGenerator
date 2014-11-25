@@ -1,0 +1,100 @@
+#!/usr/bin/env ruby
+
+#
+#   In[]  =>  Process => Out[] (Console)
+#
+# In 1. interactive 2. file
+
+# Interactive
+#
+# Char registration
+#
+# > char add john
+# ===> +john
+#
+#
+# 'ki ... ex)
+#  >  ki john hooks up mary
+#  ===> |ki| #john |hooks up| #mary
+# 'so ...
+# 'ten ...
+# 'ke ...
+
+
+# Show
+
+# Individual-Based
+#
+# john  => |ki| hooks up mary
+#          |so| go to school
+#          |ten| fight with #enemy
+#          |ke| win enemy
+
+CHARACTER = "char"
+ROOT_DIR = "./"
+
+def get_file(file, op)
+  guaranteeFileExistence "#{ROOT_DIR}#{file}"
+  # op ... a, r, w
+  File.open(file, op)
+end
+
+def guaranteeFileExistence(file)
+  if !File.exist? file
+    tmp = File.new file, "w"
+    tmp.close
+  end
+  file
+end
+
+def add(file, content)
+  f = get_file file, "a"
+  f.puts content
+  f.close
+end
+
+def delete(file, content)
+  f = get_file file, "r"
+  new_file = Array.new
+  f.each_line { |c|
+    if c.chomp != content
+      new_file.push c
+    end
+  }
+  f.close
+  f = get_file file, "w"
+  new_file.each{ |c|
+    f.puts c
+  }
+  f.close
+end
+
+def operateChar(input)
+  if input.size < 3
+    abort  "argument size is too short"
+  end
+  case input[1]
+  when "add"
+    add(CHARACTER, input[2])
+  when "delete"
+    delete(CHARACTER, input[2])
+  end
+end
+
+
+def read_input(input)
+  if input.size == 0
+    abort "you need argument"
+  end
+  case input[0]
+  when "char"
+    operateChar(input)
+  end
+end
+
+# -- test section --
+
+read_input(["char", "add", "john"])
+read_input(["char", "delete", "john"])
+
+
