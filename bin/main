@@ -31,15 +31,33 @@
 #          |ke| win enemy
 
 CHARACTER = "char"
-ROOT_DIR = "./"
+ROOT = Dir.pwd
+
+# id, id_table
+
+def getRootDir()
+  f = File.open("#{ROOT}/id", "r")
+  id = f.each_line.to_a
+  if (id.size == 0 || id[0].strip == "")
+    abort "id file is blanc"
+  end
+  # this gott a be path or somethin?
+  dir = "#{ROOT}/../data/#{id[0].chomp}/"
+  if !Dir.exist? dir
+    require 'fileutils'
+    FileUtils::mkdir_p dir
+  end
+  dir
+end
 
 def get_file(file, op)
-  guaranteeFileExistence "#{ROOT_DIR}#{file}"
-  # op ... a, r, w
+  file = "#{getRootDir}#{file.chomp}"
+  guaranteeFileExistence file
   File.open(file, op)
 end
 
 def guaranteeFileExistence(file)
+  puts "--  #{file}  --"
   if !File.exist? file
     tmp = File.new file, "w"
     tmp.close
@@ -81,7 +99,6 @@ def operateChar(input)
   end
 end
 
-
 def read_input(input)
   if input.size == 0
     abort "you need argument"
@@ -94,7 +111,9 @@ end
 
 # -- test section --
 
+# add character
 read_input(["char", "add", "john"])
-read_input(["char", "delete", "john"])
+# delete character
+#read_input(["char", "delete", "john"])
 
 
