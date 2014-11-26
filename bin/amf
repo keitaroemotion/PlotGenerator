@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+# amo fabula
+
+
+actio = ARGV[0]  # what to do  (commentarius or fabulo)
+
+
