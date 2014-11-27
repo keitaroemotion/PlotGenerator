@@ -38,3 +38,17 @@ premise
     let obj[] edant
   }
   == ridiculus
+
+trouble = trouble_maker
+
+#flow
+prot, obj, trouble
+incident => prot  |  obj + trouble
+obj + trouble action without prot presense
+trouble determines (prot not expected | undesirable for prot)
+prot encounter with the undesirable situation (caused by trouble)
+
+
+
+
+

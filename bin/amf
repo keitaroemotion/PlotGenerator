@@ -2,7 +2,7 @@
 
 # amo fabula
 
-require './commentarius.rb'
+require '../commentarius.rb'
 
 def jacioExceptio(i)
   if(ARGV.size < i+1)
@@ -17,7 +17,6 @@ $actio = ARGV[0]
 
 $commentarium_scribo = ["write", "scribo"]
 $commentarium_lego = ["read", "lego"]
-
 
 def efficio_commentarium()
    args = Array.new
@@ -39,9 +38,7 @@ end
 def habeoActio(arrays)
   habeo = false
   arrays.each { |array|
-    if array.include? $actio
-      habeo = true
-    end
+    if array.include? $actio then habeo = true end
   }
   habeo
 end
