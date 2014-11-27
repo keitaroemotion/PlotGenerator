@@ -3,7 +3,7 @@
 # > ./memo [operation] [category] [content:args[]]
 # path: data/memo/
 
-class Memo
+class Commentarius
 
   $ROOT = Dir.pwd
   $memo_path = "#{$ROOT}/../data/memo"
@@ -48,8 +48,14 @@ class Memo
   # read_ as _
   def self.lego_tamquam_console(category)
     destinati_file = nanciscor_destinati_file $memo_path, category
+    if !File.exist? destinati_file
+      puts
+      puts "|non consto| ===>  #{destinati_file} "
+      puts
+      abort
+    end
     scribo_header_corpus destinati_file
-    File.open(destinati_file, "r").each { |line|
+        File.open(destinati_file, "r").each { |line|
       puts line
     }
   end
