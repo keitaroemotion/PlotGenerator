@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+plot_path = "../data/story1/plot"
 chars_file = "../data/story1/char" 
 
 def getChars(chars_file)
@@ -51,7 +52,26 @@ def fit(tx,i)
 end
 
 
+def genPlate(file, chars_file)
+  f = File.open(file, "a") 
+  f.puts "----------chars-----------"
+  f.puts getChars(chars_file).keys 
+  f.puts "--------------------------"
+  f.puts "#ki"
+  f.puts
+  f.puts "#so"
+  f.puts
+  f.puts "#ten"
+  f.puts
+  f.puts "#kez"
+  f.puts
+  f.puts "(what is entertaining)"
+  f.close
+end
+
 case operation
+when "init"
+    genPlate plot_path, chars_file
 when "chars"
   puts
   puts "----chars----"
