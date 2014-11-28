@@ -18,7 +18,13 @@ def getChars(chars_file)
 			prev = line.strip
 		elsif line.include? "|"
 			tokens = line.split("|")
-			container[tokens[0].strip] = tokens[1]
+      key = tokens[0].strip
+      case container.has_key? key
+      when false
+		  	container[key] = tokens[1]
+      when true
+		  	container[key] += "\n          | "+tokens[1]
+      end
 		end
 	}
 	chars[prev] = container
@@ -46,6 +52,11 @@ end
 
 
 case operation
+when "chars"
+  puts
+  puts "----chars----"
+  puts getChars(chars_file).keys
+  puts
 when "char"
   id = "$#{ARGV[1]}"
   if ARGV.size == 2
