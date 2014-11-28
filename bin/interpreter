@@ -2,6 +2,7 @@
 
 plot_path = "../data/story1/plot"
 chars_file = "../data/story1/char" 
+grammar_file = "../doc/gram"
 
 def getChars(chars_file)
 	prev = ""
@@ -69,7 +70,57 @@ def genPlate(file, chars_file)
   f.close
 end
 
+def find(file)
+	id = "$#{ARGV[1]}"
+  if ARGV.size == 2
+    getChars(file)[id].each{ |k,v|
+      puts "#{fit(k,10)}| #{v}"
+    }
+  elsif ARGV.size == 3
+    puts getChars(file)[id][ARGV[2]]
+  end 
+end
+
+def getGram(file)
+  variable = ""
+  grams = Hash.new()
+  tmp = ""
+  prev = ""
+  File.open(file, "r").each_line{ |line|
+    line = line.chomp
+    if line.start_with? "$"
+      if tmp != ""
+        grams[prev] = tmp
+        tmp = ""
+      end 
+      prev = line
+    elsif
+      tmp += line + "\n" 
+    end
+  }
+  grams[prev] = tmp
+  grams 
+end
+
+def findGram(file)
+	id = "$#{ARGV[1]}"
+  puts getGram(file)[id]
+end
+
+def findGrams(file)
+	id = "$#{ARGV[1]}"
+  getGram(file).each{ |x|
+    puts x
+  }
+end
+
+
+
 case operation
+when "grams"
+  findGrams grammar_file
+when "gram"
+  findGram grammar_file  
 when "init"
     genPlate plot_path, chars_file
 when "chars"
@@ -78,14 +129,7 @@ when "chars"
   puts getChars(chars_file).keys
   puts
 when "char"
-  id = "$#{ARGV[1]}"
-  if ARGV.size == 2
-    getChars(chars_file)[id].each{ |k,v|
-      puts "#{fit(k,10)}| #{v}"
-    }
-  elsif ARGV.size == 3
-    puts getChars(chars_file)[id][ARGV[2]]
-  end 
+ find chars_file
 end
 
 
