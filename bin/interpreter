@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+
+chars_file = "../data/story1/char" 
+
+def getChars(chars_file)
+	prev = ""
+
+	chars = Hash.new()
+	container = Hash.new()
+
+	File.open(chars_file, "r").each_line{ |line|
+		line = line.chomp
+		if line.strip.start_with? "$"
+			if container.size != 0 
+				chars[prev] = container
+				container = Hash.new()
+			end
+			prev = line.strip
+		elsif line.include? "|"
+			tokens = line.split("|")
+			container[tokens[0].strip] = tokens[1]
+		end
+	}
+	chars[prev] = container
+  chars
+end
+
+
+operation = ARGV[0]
+
+def fit(tx,i)
+  diff = i - tx.size
+  if diff > 0 
+		(0..diff-1).each{ |x|
+			tx+=" "
+		}
+  elsif diff < 0
+    tmp = ""
+    (0..i-3).each{  |x|
+      tmp += tx[x]
+    }
+    tx = tmp + ".."
+  end
+  tx
+end
+
+
+case operation
+when "char"
+  id = "$#{ARGV[1]}"
+  if ARGV.size == 2
+    getChars(chars_file)[id].each{ |k,v|
+      puts "#{fit(k,10)}| #{v}"
+    }
+  elsif ARGV.size == 3
+    puts getChars(chars_file)[id][ARGV[2]]
+  end 
+end
+
+
